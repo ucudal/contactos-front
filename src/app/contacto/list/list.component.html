@@ -1,0 +1,13 @@
+<h1>Lista de contactos</h1>
+<h3 *ngIf="this.contactos.length ==0 ;else mostrar">No hay contactos</h3>
+<ng-template #mostrar>
+    <ol class="list-group list-group-numbered">
+        <li *ngFor="let contacto of this.contactos" class="list-group-item d-flex justify-content-between align-items-start">
+          <div class="ms-2 me-auto">
+            <div class="fw-bold">{{contacto.nombre}}</div>
+            {{this.getContactDescription(contacto) | titlecase }}
+          </div>
+          <span class="badge bg-primary rounded-pill">{{contacto.edad}}</span>
+        </li>
+    </ol>
+</ng-template>
