@@ -8,18 +8,14 @@ import { Contacto } from 'src/interfaces/contacto';
 })
 export class ListComponent {
   contactos: Contacto[] = [
-    {
-      nombre: "jorge",
-      edad: 38,
-      sobrenombre: "profesor"
-    },
-    {
-      nombre: "alberto",
-      sobrenombre:  "albert",
-      edad: 16
-    }
+    new Contacto("Jorge", "Profe", 38),
+    new Contacto("Alberto", "Alb", 22),
+    new Contacto("Juan", "Pancho", 11),
+    new Contacto("Rene", "C13", 33),
+    new Contacto("Luisa", "lu", 18),
+    new Contacto("Franciso", "Fran", 43),
+    new Contacto("Veronica", "Vero", 44),
+    new Contacto("Silvia", "ita", 17),
   ]
-  getContactDescription(contacto: Contacto):string{
-    return `El ${contacto.sobrenombre} ${contacto.nombre}`;
-  }
+
 }
