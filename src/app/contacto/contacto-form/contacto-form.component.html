@@ -1,1 +1,19 @@
-<p>contacto-form works!</p>
+<form (ngSubmit)="this.emitContacto()">
+    <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="nombre" name="nombre" required="true" minlength="5"
+            [(ngModel)]="contacto.nombre">
+    </div>
+    <div class="mb-3">
+        <label for="sobrenombre" class="form-label">Sobrenombre</label>
+        <input type="text" class="form-control" id="sobrenombre" name="sobrenombre" minlength="5" maxlength="10"
+            required [(ngModel)]="contacto.sobrenombre">
+    </div>
+    <div class="mb-3">
+        <label for="edad" class="form-label">Edad</label>
+        <input type="number" class="form-control" id="edad" name="edad" required="true" min="18"
+        [(ngModel)]="contacto.edad">
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+</form>
+{{contacto | json}}

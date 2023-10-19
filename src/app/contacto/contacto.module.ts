@@ -3,20 +3,23 @@ import { CommonModule } from '@angular/common';
 import { ListComponent } from './list/list.component';
 import { ContactoFormComponent } from './contacto-form/contacto-form.component';
 import { ContactoViewComponent } from './contacto-view/contacto-view.component';
+import { FormsModule } from '@angular/forms';
+import { PageComponent } from './page/page.component';
 
 @NgModule({
   declarations: [
     ListComponent,
     ContactoFormComponent,
-    ContactoViewComponent
+    ContactoViewComponent,
+    PageComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+    
   ],
   exports: [
-    ListComponent,
-    ContactoFormComponent,
-    ContactoViewComponent
+    PageComponent
   ]
 })
 export class ContactoModule { 

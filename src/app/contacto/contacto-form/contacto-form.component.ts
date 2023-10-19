@@ -1,10 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Contacto } from 'src/interfaces/contacto';
 
 @Component({
   selector: 'app-contacto-form',
   templateUrl: './contacto-form.component.html',
-  styleUrls: ['./contacto-form.component.css']
 })
 export class ContactoFormComponent {
+
+  public contacto: Contacto= new Contacto("","",0);
+
+  @Output()
+  public onNewContacto: EventEmitter<Contacto> = new EventEmitter();
+
+  emitContacto() {
+    this.onNewContacto.emit(this.contacto);
+    this.resetContacto();
+  }
+
+  resetContacto(){
+    this.contacto = new Contacto("","",0);
+  }
 
 }
