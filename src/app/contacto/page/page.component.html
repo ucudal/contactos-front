@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col">
-        <app-contacto-list [contactos]="this.contactos"
-            (onDeleteContacto)="recibirIndiceBorrado($event)"
+        <app-contacto-list [contactos]="this.contactoService.contactos"
+            (onDeleteContacto)="this.contactoService.recibirIndiceBorrado($event)"
         ></app-contacto-list></div>
-    <div class="col"><app-contacto-form (onNewContacto)="this.recibirContacto($event)"></app-contacto-form></div>
+    <div class="col"><app-contacto-form (onNewContacto)="this.contactoService.recibirContacto($event)"></app-contacto-form></div>
 </div>
