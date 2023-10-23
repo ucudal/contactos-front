@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Contacto } from 'src/interfaces/contacto';
 
 @Component({
@@ -10,9 +10,16 @@ export class ListComponent implements OnInit {
   @Input()
   public contactos!:Contacto[];
 
+  @Output()
+  public onDeleteContacto: EventEmitter<number> = new EventEmitter<number>();
+
   ngOnInit(): void {
     if (!this.contactos) {
       throw new Error("La lista de contactos es obligatoria.");
     }
+  }
+
+  emitDeletedId(id:number) {
+    this.onDeleteContacto.emit(id);
   }
 }

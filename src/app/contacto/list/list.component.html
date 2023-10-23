@@ -2,6 +2,14 @@
 <h3 *ngIf="this.contactos.length ==0 ;else mostrar">No hay contactos</h3>
 <ng-template #mostrar>
   <ol class="list-group list-group-numbered">
-    <contacto-view *ngFor="let contacto of this.contactos" [contacto]="contacto"></contacto-view>
+    <div *ngFor="let contacto of this.contactos;index as i;even as isEven" class="row">
+      <contacto-view [contacto]="contacto"
+        [fondo]="isEven ? 'bg-light' : ''"
+        [indice]="i"
+        class="col"
+      >
+      </contacto-view>
+      <button (click)="emitDeletedId(i)" class="col col-auto btn btn-danger d-flex align-items-center mt-1">Eliminar</button>
+    </div>
   </ol>
 </ng-template>

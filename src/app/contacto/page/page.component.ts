@@ -22,4 +22,9 @@ export class PageComponent {
     this.contactos.push(contacto);
   }
 
+  recibirIndiceBorrado(indice:number):void {
+    console.log(indice);
+    this.contactos.splice(indice,1);
+  }
+
 }

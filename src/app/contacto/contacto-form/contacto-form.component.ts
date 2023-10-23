@@ -7,18 +7,18 @@ import { Contacto } from 'src/interfaces/contacto';
 })
 export class ContactoFormComponent {
 
-  public contacto: Contacto= new Contacto("","",0);
+  public contacto: Contacto = new Contacto("", "", 0);
 
   @Output()
-  public onNewContacto: EventEmitter<Contacto> = new EventEmitter();
+  public onNewContacto: EventEmitter<Contacto> = new EventEmitter<Contacto>();
 
   emitContacto() {
     this.onNewContacto.emit(this.contacto);
     this.resetContacto();
   }
 
-  resetContacto(){
-    this.contacto = new Contacto("","",0);
+  resetContacto() {
+    this.contacto = new Contacto("", "", 0);
   }
 
 }
