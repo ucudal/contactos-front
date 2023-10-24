@@ -5,7 +5,6 @@
     <div *ngFor="let contacto of this.contactos;index as i;even as isEven" class="row">
       <contacto-view [contacto]="contacto"
         [fondo]="isEven ? 'bg-light' : ''"
-        [indice]="i"
         class="col"
       >
       </contacto-view>
