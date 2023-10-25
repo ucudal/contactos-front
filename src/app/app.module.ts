@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { ContadorModule } from './contador/contador.module';
-import { ContactoModule } from './contacto/contacto.module';
+import { SharedModule } from './shared/shared.module';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -11,8 +11,8 @@ import { ContactoModule } from './contacto/contacto.module';
   ],
   imports: [
     BrowserModule,
-    ContadorModule,
-    ContactoModule
+    AppRoutingModule,
+    SharedModule,
   ],
   providers: [
 
