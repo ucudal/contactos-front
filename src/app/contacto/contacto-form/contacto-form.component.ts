@@ -5,12 +5,28 @@ import { Contacto } from 'src/interfaces/contacto';
   selector: 'app-contacto-form',
   templateUrl: './contacto-form.component.html',
 })
-export class ContactoFormComponent {
+export class ContactoFormComponent implements OnInit {
 
-  public contacto: Contacto = new Contacto("", "", 0);
+  public contacto: Contacto;
 
   @Output()
   public onNewContacto: EventEmitter<Contacto> = new EventEmitter<Contacto>();
+
+  constructor(){
+    this.contacto ={
+      id: 0,
+      foto: '',
+      nombre: '',
+      sobrenombre: '',
+      edad: 0,
+      email: '',
+      telefono: ''
+    };
+  }
+
+  ngOnInit(): void {
+    
+  }
 
   emitContacto() {
     this.onNewContacto.emit(this.contacto);
@@ -18,7 +34,15 @@ export class ContactoFormComponent {
   }
 
   resetContacto() {
-    this.contacto = new Contacto("", "", 0);
+    this.contacto ={
+      id: 0,
+      foto: '',
+      nombre: '',
+      sobrenombre: '',
+      edad: 0,
+      email: '',
+      telefono: ''
+    };
   }
 
 }

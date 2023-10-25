@@ -8,14 +8,7 @@ export class ContactoService {
     constructor() { }
 
     public contactos: Contacto[] = [
-        new Contacto("Jorge", "Profe", 38),
-        new Contacto("Alberto", "Alb", 22),
-        new Contacto("Juan", "Pancho", 11),
-        new Contacto("Rene", "C13", 33),
-        new Contacto("Luisa", "lu", 18),
-        new Contacto("Franciso", "Fran", 43),
-        new Contacto("Veronica", "Vero", 44),
-        new Contacto("Silvia", "ita", 17),
+
       ]
     
       recibirContacto(contacto:Contacto):void {

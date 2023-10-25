@@ -19,6 +19,6 @@ export class ContactoViewComponent implements OnInit {
 
   
   get description() {
-    return Contacto.getContactDescription(this.contacto);
+    return this.contacto.sobrenombre + ":" + this.contacto.nombre;
   }
 }

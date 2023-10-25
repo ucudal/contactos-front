@@ -1,17 +1,9 @@
-export class Contacto {
-  constructor(
-    public nombre: string,
-    public sobrenombre: string,
-    public edad: number) {
-
-  }
-
-  get esMayor() {
-    return this.edad >= 18;
-  }
-
-  static getContactDescription(contacto: Contacto) {
-    return `El ${contacto.sobrenombre} ${contacto.nombre}`;
-  }
-
+export interface Contacto {
+  id:number;
+  foto: string;
+  nombre: string;
+  sobrenombre: string;
+  edad: number;
+  email: string;
+  telefono: string;
 }
