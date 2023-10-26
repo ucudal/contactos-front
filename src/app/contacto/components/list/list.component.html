@@ -3,12 +3,10 @@
 <ng-template #mostrar>
   <ol class="list-group list-group-numbered">
     <div *ngFor="let contacto of this.contactos;index as i;even as isEven" class="row">
-      <contacto-view [contacto]="contacto"
-        [fondo]="isEven ? 'bg-light' : ''"
-        class="col"
-      >
+      <contacto-view [contacto]="contacto" [fondo]="isEven ? 'bg-light' : ''" class="col">
       </contacto-view>
-      <button (click)="emitDeletedId(i)" class="col col-auto btn btn-danger d-flex align-items-center mt-1">Eliminar</button>
+      <button (click)="emitDeletedId(contacto.id)"
+        class="col col-auto btn btn-danger d-flex align-items-center mt-1">Eliminar</button>
     </div>
   </ol>
 </ng-template>
