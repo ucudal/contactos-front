@@ -17,7 +17,7 @@ import { PageComponent } from './components/page/page.component';
   imports: [
     CommonModule,
     FormsModule,
-    CountriesRoutingModule
+    CountriesRoutingModule,
   ],
 })
 export class ContactoModule {

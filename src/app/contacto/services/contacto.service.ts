@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, from } from 'rxjs';
 import { Contacto } from 'src/app/contacto/interfaces/contacto';
@@ -9,14 +10,24 @@ export class ContactoService {
 
   private baseUrl = "http://localhost:3000/contacts";
 
-  constructor() {
+  constructor(private http: HttpClient) {
     
   }
 
-  async getContactosAsync() {
-    const res = await fetch(this.baseUrl);
-    const contactos = await res.json();
-    return contactos;
+  // getContactosObservable(): Observable<Contacto[]> {
+  //   return from(
+  //     fetch(this.baseUrl)
+  //       .then(res => {
+  //         console.log("RES ",res)
+  //         return res.json()
+  //       })
+  //       .then(data => data as Contacto[])
+  //     );
+  // }
+
+  getContactos(): Observable<Contacto[]> {
+    return this.http.get<Contacto[]>(this.baseUrl);
+    // return of([]);
   }
 
   async addContact(contacto: Contacto) {
@@ -39,5 +50,7 @@ export class ContactoService {
     console.log(indice);
     
   }
+
+  
 
 }

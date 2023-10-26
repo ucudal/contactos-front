@@ -8,7 +8,7 @@ import { Contacto } from '../../interfaces/contacto';
   templateUrl: './page.component.html',
 })
 export class PageComponent implements OnInit {
-  public contactos = [];
+  public contactos:Contacto[] = [];
 
   constructor(public contactoService: ContactoService) {
     console.log("Constructor PageComponent");
@@ -18,15 +18,10 @@ export class PageComponent implements OnInit {
     this.refreshContactos();
   }
 
-  refreshContactos (){ 
-    this.contactoService.getContactosAsync().then( data => {
-      console.log(data)
-      this.contactos = data
-    })        
-    .catch(error => {
-      console.error(error);
-        return [];
-      });
+  refreshContactos () : void { 
+    this.contactoService.getContactos().subscribe(contactos => {
+      this.contactos = contactos
+    });
   }
 
   recibirContacto(contacto:Contacto){
