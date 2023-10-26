@@ -8,9 +8,9 @@ import { ContactoService } from '../services/contacto.service';
 })
 export class PageComponent {
 
-  constructor (public contactoService : ContactoService) {
-      
+  constructor(public contactoService: ContactoService) {
+
   }
-  
+
 
 }

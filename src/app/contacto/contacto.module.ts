@@ -5,6 +5,7 @@ import { ContactoFormComponent } from './contacto-form/contacto-form.component';
 import { ContactoViewComponent } from './contacto-view/contacto-view.component';
 import { FormsModule } from '@angular/forms';
 import { PageComponent } from './page/page.component';
+import { CountriesRoutingModule } from './contactos-routing.module';
 
 @NgModule({
   declarations: [
@@ -16,12 +17,9 @@ import { PageComponent } from './page/page.component';
   imports: [
     CommonModule,
     FormsModule,
-    
+    CountriesRoutingModule
   ],
-  exports: [
-    PageComponent
-  ]
 })
-export class ContactoModule { 
+export class ContactoModule {
 
 }

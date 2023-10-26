@@ -14,11 +14,11 @@ const routes: Routes = [
     component: AcercaDeComponent,
 
   },
-  // {
-  //   path: "countries",
-  //   loadChildren: () => import('./countries/countries.module').then(m => m.CountriesModule),
+  {
+    path: "contactos",
+    loadChildren: () => import('./contacto/contacto.module').then(m => m.ContactoModule),
 
-  // },
+  },
   {
     path: "**",
     redirectTo: "home"
