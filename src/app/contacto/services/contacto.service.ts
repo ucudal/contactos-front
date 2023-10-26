@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Contacto } from 'src/interfaces/contacto';
+import { Contacto } from 'src/app/contacto/interfaces/contacto';
 
 @Injectable(
   { providedIn: 'root' }    //singleton disponible en toda la aplicación.

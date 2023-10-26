@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Contacto } from 'src/interfaces/contacto';
+import { Contacto } from 'src/app/contacto/interfaces/contacto';
 
 @Component({
   selector: 'app-contacto-list',
   templateUrl: './list.component.html',
 })
 export class ListComponent implements OnInit {
-  
+
   @Input()
-  public contactos!:Contacto[];
+  public contactos!: Contacto[];
 
   @Output()
   public onDeleteContacto: EventEmitter<number> = new EventEmitter<number>();
@@ -19,7 +19,7 @@ export class ListComponent implements OnInit {
     }
   }
 
-  emitDeletedId(id:number) {
+  emitDeletedId(id: number) {
     this.onDeleteContacto.emit(id);
   }
 }

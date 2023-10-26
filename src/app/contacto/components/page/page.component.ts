@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Contacto } from 'src/interfaces/contacto';
-import { ContactoService } from '../services/contacto.service';
+import { ContactoService } from '../../services/contacto.service';
+
 
 @Component({
   selector: 'contacto-page',

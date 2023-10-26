@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Contacto } from 'src/interfaces/contacto';
+import { Contacto } from 'src/app/contacto/interfaces/contacto';
 
 @Component({
   selector: 'app-contacto-form',
@@ -12,8 +12,8 @@ export class ContactoFormComponent implements OnInit {
   @Output()
   public onNewContacto: EventEmitter<Contacto> = new EventEmitter<Contacto>();
 
-  constructor(){
-    this.contacto ={
+  constructor() {
+    this.contacto = {
       id: 0,
       foto: '',
       nombre: '',
@@ -25,7 +25,7 @@ export class ContactoFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+
   }
 
   emitContacto() {
@@ -34,7 +34,7 @@ export class ContactoFormComponent implements OnInit {
   }
 
   resetContacto() {
-    this.contacto ={
+    this.contacto = {
       id: 0,
       foto: '',
       nombre: '',

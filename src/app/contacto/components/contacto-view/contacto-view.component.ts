@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Contacto } from 'src/interfaces/contacto';
+import { Contacto } from 'src/app/contacto/interfaces/contacto';
 
 @Component({
   selector: 'contacto-view',
@@ -11,13 +11,13 @@ export class ContactoViewComponent implements OnInit {
   public contacto!: Contacto;
 
   @Input()
-  public fondo:string = '';
+  public fondo: string = '';
 
   ngOnInit(): void {
     if (!this.contacto) throw new Error('El contacto es obligatorio.');
   }
 
-  
+
   get description() {
     return this.contacto.sobrenombre + ":" + this.contacto.nombre;
   }
