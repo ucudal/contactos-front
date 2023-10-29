@@ -3,9 +3,9 @@ import { Contacto } from 'src/app/contacto/interfaces/contacto';
 
 @Component({
   selector: 'app-contacto-list',
-  templateUrl: './list.component.html',
+  templateUrl: './contacto-list.component.html',
 })
-export class ListComponent implements OnInit {
+export class ContactoListComponent implements OnInit {
 
   @Input()
   public contactos!: Contacto[];

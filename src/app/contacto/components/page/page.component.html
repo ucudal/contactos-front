@@ -1,9 +1,0 @@
-<div class="row">
-  <div class="col">
-    <app-contacto-list [contactos]="this.contactos"
-      (onDeleteContacto)="this.recibirIdParaBorrar($event)"></app-contacto-list>
-  </div>
-  <div class="col">
-    <app-contacto-form (onNewContacto)="recibirContacto($event)"></app-contacto-form>
-  </div>
-</div>

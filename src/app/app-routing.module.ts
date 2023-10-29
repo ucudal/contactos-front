@@ -1,27 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomePageComponent } from './shared/pages/home-page/home-page.component';
-import { AcercaDeComponent } from './shared/pages/acerca-de/acerca-de.component';
+import { HomePageComponent } from './main/pages/home-page/home-page.component';
+import { AcercaDeComponent } from './main/pages/acerca-de/acerca-de.component';
 
 const routes: Routes = [
   {
-    path: "home",
-    component: HomePageComponent,
-
+    path: "auth",
+    loadChildren: () => import("./auth/auth.module").then(m => m.AuthModule),
   },
   {
-    path: "about",
-    component: AcercaDeComponent,
-
-  },
-  {
-    path: "contactos",
+    path: "contacts",
     loadChildren: () => import('./contacto/contacto.module').then(m => m.ContactoModule),
 
   },
   {
-    path: "**",
-    redirectTo: "home"
+    path: "",
+    loadChildren: () => import('./main/main.module').then(m => m.MainModule),
   }
 ]
 

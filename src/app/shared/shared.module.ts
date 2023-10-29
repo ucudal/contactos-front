@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HomePageComponent } from './pages/home-page/home-page.component';
-import { AcercaDeComponent } from './pages/acerca-de/acerca-de.component';
+import { HomePageComponent } from '../main/pages/home-page/home-page.component';
+import { AcercaDeComponent } from '../main/pages/acerca-de/acerca-de.component';
 import { RouterModule } from '@angular/router';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { MainLayoutPageComponent } from './pages/main-layout-page/main-layout-page.component';
 
 
 
@@ -11,7 +13,9 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
   declarations: [
     HomePageComponent,
     AcercaDeComponent,
-    SidebarComponent
+    SidebarComponent,
+    NotFoundComponent,
+    MainLayoutPageComponent
   ],
   imports: [
     CommonModule,
