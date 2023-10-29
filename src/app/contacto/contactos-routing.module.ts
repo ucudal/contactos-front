@@ -8,28 +8,31 @@ import { MainLayoutPageComponent } from '../shared/pages/main-layout-page/main-l
 const routes = [
   {
     path: "",
-    component: MainLayoutPageComponent
+    component: MainLayoutPageComponent,
+    children: [
+      {
+        path: "new",
+        component: ContactFormPageComponent
+      },
+      {
+        path: "edit/:id",
+        component: ContactFormPageComponent
+      },
+      {
+        path: "list",
+        component: ContactListPageComponent
+      },
+      {
+        path: ":id",
+        component: ContactViewPageComponent
+      },
+      {
+        path: "**",
+        redirectTo: "list"
+      }
+    ]
   },
-  {
-    path: "new",
-    component: ContactFormPageComponent
-  },
-  {
-    path: "edit/:id",
-    component: ContactFormPageComponent
-  },
-  {
-    path: "list",
-    component: ContactListPageComponent
-  },
-  {
-    path: ":id",
-    component: ContactViewPageComponent
-  },
-  {
-    path: "**",
-    redirectTo: "list"
-  }
+
 ]
 
 @NgModule({
