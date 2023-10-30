@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, from } from 'rxjs';
+import { Observable, catchError, from, of } from 'rxjs';
 import { Contacto } from 'src/app/contacto/interfaces/contacto';
 
 @Injectable(
@@ -11,7 +11,7 @@ export class ContactoService {
   private baseUrl = "http://localhost:3000/contacts";
 
   constructor(private http: HttpClient) {
-    
+
   }
 
   // getContactosObservable(): Observable<Contacto[]> {
@@ -27,18 +27,24 @@ export class ContactoService {
 
   getContactos(): Observable<Contacto[]> {
     return this.http.get<Contacto[]>(this.baseUrl);
-    // return of([]);
+  }
+
+  getContactoById(id: number): Observable<Contacto | undefined> {
+    return this.http.get<Contacto | undefined>(`${this.baseUrl}/${id}`)
+      .pipe(
+        catchError(error => of(undefined)),
+      );
   }
 
   async addContact(contacto: Contacto) {
     const res = await fetch(this.baseUrl, {
       method: "POST",
       body: JSON.stringify(contacto),
-      headers: {"Content-type": "application/json; charset=UTF-8"}
+      headers: { "Content-type": "application/json; charset=UTF-8" }
 
     });
     const data = await res.json();
-    if (res.status !== 201 ) {
+    if (res.status !== 201) {
       console.error(data);
       throw new Error(data);
     }
@@ -48,9 +54,9 @@ export class ContactoService {
 
   removeContac(indice: number): void {
     console.log(indice);
-    
+
   }
 
-  
+
 
 }
