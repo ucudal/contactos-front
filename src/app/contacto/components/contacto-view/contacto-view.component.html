@@ -1,12 +1,26 @@
-<li *ngIf="contacto" 
-  class="list-group-item d-flex justify-content-between align-items-center"
-  [class]="fondo"
->
-  <span class="badge bg-primary rounded-pill"
-    [class]="contacto.edad >= 18 ? 'bg-success' : 'bg-danger'"
-    >{{contacto.edad}}</span>
-  <div class="ms-2 me-auto">
-    <div class="fw-bold">{{contacto.nombre}}</div>
-    {{ description | titlecase }}
+<div class="card border border-danger border-3 mb-4" style="max-width: 24em;">
+  <img [src]="contacto.foto" class="card-img-top" [alt]="contacto.foto">
+  <div class="card-body">
+    <h5 class="card-title">
+      {{contacto.sobrenombre}}
+    </h5>
+    <h6 class="card-subtitle mb-2 text-body-secondary">
+      {{contacto.nombre}}
+    </h6>
+    <p><strong>Edad: </strong>
+      {{contacto.edad}}
+    </p>
+    <p><strong>Telefono: </strong>
+      {{contacto.telefono}}
+    </p>
+    <p><strong>Email: </strong>
+      {{contacto.email}}
+    </p>
   </div>
-</li>
+  <div class="card-footer bg-transparent">
+    <div class="btn-group btn-group-sm w-100" role="group">
+      <a role="button" class="btn btn-sm btn-outline-primary btn-block">Edit</a>
+      <a role="button" class="btn btn-sm btn-outline-danger ">Delete</a>
+    </div>
+  </div>
+</div>

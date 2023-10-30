@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Contacto } from 'src/app/contacto/interfaces/contacto';
 
 @Component({
-  selector: 'app-contacto-list',
+  selector: 'contacto-list',
   templateUrl: './contacto-list.component.html',
 })
 export class ContactoListComponent implements OnInit {
