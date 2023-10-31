@@ -12,4 +12,13 @@
     class="list-group-item">
     Contactos
   </li>
+
+  <li *ngIf="!this.currentUser" routerLink="/auth/login" routerLinkActive="active"
+    [routerLinkActiveOptions]="{exact: true}" class="list-group-item">
+    Login
+  </li>
+
+  <li *ngIf="!!this.currentUser" class="list-group-item"><a (click)="this.emitLogout()">Logout</a>
+
+  </li>
 </ul>

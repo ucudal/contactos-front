@@ -159,6 +159,9 @@ Cambiar los datos a un servicio.
 - Agregar un id al contacto.
 - Editar el código para borrar el contacto por su id.
 
+- Crear interface User
+- Crear auth.service.ts
+
 PETICION HTTP:
 
 - usar fetch para imprimir en consola la lista de contactos

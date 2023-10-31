@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { userIsLogged } from './auth/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -9,11 +10,16 @@ const routes: Routes = [
   {
     path: "contacts",
     loadChildren: () => import('./contacto/contacto.module').then(m => m.ContactoModule),
+    canMatch: [userIsLogged]
 
   },
   {
     path: "",
     loadChildren: () => import('./main/main.module').then(m => m.MainModule),
+  },
+  {
+    path: "**",
+    redirectTo: "/home"
   }
 ]
 
