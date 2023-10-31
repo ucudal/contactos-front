@@ -19,4 +19,9 @@ export class ContactListPageComponent implements OnInit {
     this.contactoService.getContactos().subscribe(contactos => this.contacts = contactos);
   }
 
+  receiveDeletedId(id:number) {
+    console.log("El id:",id , " llegó a contact-list-page");
+    this.contactoService.removeContact(id);
+  }
+
 }

@@ -19,8 +19,8 @@
   </div>
   <div class="card-footer bg-transparent">
     <div class="btn-group btn-group-sm w-100" role="group">
-      <a role="button" class="btn btn-sm btn-outline-primary btn-block">Edit</a>
-      <a role="button" class="btn btn-sm btn-outline-danger ">Delete</a>
+      <a routerLink="/contacts/edit/{{contacto.id}}" role="button" class="btn btn-sm btn-outline-primary btn-block">Edit</a>
+      <a (click)="deletePressed(contacto.id)" role="button" class="btn btn-sm btn-outline-danger ">Delete</a>
     </div>
   </div>
 </div>

@@ -3,6 +3,6 @@
 </div>
 <div class="row">
   <div *ngFor="let contacto of this.contactos" class="col-auto">
-    <contacto-view [contacto]="contacto"></contacto-view>
+    <contacto-view [contacto]="contacto" (onDeleteId)="this.receiveDeletedId($event)"></contacto-view>
   </div>
 </div>

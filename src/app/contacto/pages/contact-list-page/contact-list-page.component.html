@@ -1,1 +1,1 @@
-<contacto-list [contactos]="this.contacts"></contacto-list>
+<contacto-list [contactos]="this.contacts" (onDeleteContacto)="receiveDeletedId($event)"></contacto-list>

@@ -8,7 +8,7 @@ import { Contacto } from 'src/app/contacto/interfaces/contacto';
 )
 export class ContactoService {
 
-  private baseUrl = "http://localhost:3000/contacts";
+  private baseUrl = "http://jmelnik.ddns.net:3000/contacts";
 
   constructor(private http: HttpClient) {
 
@@ -52,8 +52,8 @@ export class ContactoService {
     return data;
   }
 
-  removeContac(indice: number): void {
-    console.log(indice);
+  removeContact(id: number): void {
+    console.log("Borremos id: ",id);
 
   }
 

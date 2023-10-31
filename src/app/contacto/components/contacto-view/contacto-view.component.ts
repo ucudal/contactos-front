@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Contacto } from 'src/app/contacto/interfaces/contacto';
 
 @Component({
@@ -13,12 +13,20 @@ export class ContactoViewComponent implements OnInit {
   @Input()
   public fondo: string = '';
 
+  @Output()
+  public onDeleteId = new EventEmitter<number>();
+
   ngOnInit(): void {
     if (!this.contacto) throw new Error('El contacto es obligatorio.');
   }
 
-
   get description() {
     return this.contacto.sobrenombre + ":" + this.contacto.nombre;
   }
+
+  deletePressed(id:number) {
+    console.log("Presionaste delete para borrar id ", id);
+    this.onDeleteId.emit(id);
+  }
+  
 }

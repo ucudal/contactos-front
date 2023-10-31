@@ -39,7 +39,7 @@ const routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class CountriesRoutingModule {
+export class ContactsRoutingModule {
 
 
 }

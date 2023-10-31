@@ -19,7 +19,10 @@ export class ContactoListComponent implements OnInit {
     }
   }
 
-  emitDeletedId(id: number) {
+  receiveDeletedId(id:number){
+    console.log("Lista emitió el ",id, " para borrar.");
     this.onDeleteContacto.emit(id);
   }
+
+  
 }
