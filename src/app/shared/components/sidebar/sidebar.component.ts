@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
-import { AuthLayoutComponent } from '../../../auth/pages/auth-layout/auth-layout.component';
-import { Observable } from 'rxjs';
 import { User } from 'src/app/auth/interfaces/user.interface';
 
 @Component({
@@ -15,16 +13,14 @@ export class SidebarComponent {
   onLogout: EventEmitter<void> = new EventEmitter();
 
   constructor(private authService: AuthService) {
-
+    console.log("SidebarComponent");
   }
 
   get currentUser(): User | undefined {
-    console.log(this.authService.currentUser);
     return this.authService.currentUser;
   }
 
   emitLogout() {
-    console.log("Logout emitido.");
     this.onLogout.emit();
   }
 }

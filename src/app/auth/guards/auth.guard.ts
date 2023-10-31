@@ -1,8 +1,15 @@
-import { Injectable, inject } from '@angular/core';
-import { CanActivateFn, CanMatchFn, Route, UrlSegment } from '@angular/router';
+import { inject } from '@angular/core';
+import { CanMatchFn, Route, Router, UrlSegment } from '@angular/router';
+import { tap } from 'rxjs';
 import { AuthService } from '../auth.service';
 
+
 export const userIsLogged: CanMatchFn = (route: Route, segments: UrlSegment[]) => {
-  console.log("userIsLogged")
-  return inject(AuthService).checkAuthentication();
+  const router = inject(Router);
+  return inject(AuthService).checkAuthentication()
+    .pipe(
+      tap(autenticado => {
+        if (!autenticado) router.navigate(["/about"]);
+      })
+    );
 }

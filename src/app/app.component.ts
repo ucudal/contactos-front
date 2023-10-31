@@ -9,7 +9,7 @@ import { AuthService } from './auth/auth.service';
 export class AppComponent {
   title = 'Hola titulo Angular';
   constructor() {
-
+    console.log("AppComponent");
   }
 
 

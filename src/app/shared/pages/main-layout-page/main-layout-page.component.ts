@@ -14,12 +14,13 @@ export class MainLayoutPageComponent {
     private authService: AuthService,
     private router: Router
   ) {
-
+    console.log("MainLayoutPageComponent");
   }
 
   get user(): User | undefined {
     return this.authService.currentUser;
   }
+
   logout() {
     console.log("Presioné logout");
     this.authService.doLogout()
