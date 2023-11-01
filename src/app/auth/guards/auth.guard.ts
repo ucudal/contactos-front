@@ -6,10 +6,11 @@ import { AuthService } from '../auth.service';
 
 export const userIsLogged: CanMatchFn = (route: Route, segments: UrlSegment[]) => {
   const router = inject(Router);
-  return inject(AuthService).checkAuthentication()
+  const authService = inject(AuthService);
+  return authService.checkAuthentication()
     .pipe(
       tap(autenticado => {
-        if (!autenticado) router.navigate(["/about"]);
+        if (!autenticado) router.navigate(["/auth/login"]);
       })
     );
 }

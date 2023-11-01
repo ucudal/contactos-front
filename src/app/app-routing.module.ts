@@ -10,8 +10,7 @@ const routes: Routes = [
   {
     path: "contacts",
     loadChildren: () => import('./contacto/contacto.module').then(m => m.ContactoModule),
-    canMatch: [userIsLogged]
-
+    canMatch: [userIsLogged,]
   },
   {
     path: "",

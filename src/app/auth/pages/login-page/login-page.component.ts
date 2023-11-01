@@ -19,7 +19,7 @@ export class LoginPageComponent {
 
   }
 
-  onLogin():void{
+  onLogin():void {
     this.authService.doLogin(this.email,this.password)
       .subscribe( user => {
         this.router.navigate(["/"]);

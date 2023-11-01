@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { User } from './interfaces/user.interface';
-import { Observable, of, tap } from 'rxjs';
+import { Observable, catchError, of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
   private readonly USER_KEY = "user";
 
   private baseUrl = "http://jmelnik.ddns.net";
@@ -31,25 +32,26 @@ export class AuthService {
       this.user = undefined
       return of(false)
     }
+    
+    this.user = JSON.parse( localStorage.getItem(this.USER_KEY)!);
+
+    return of(true);
     //TODO: pegarle al rest a una ruta protegida y consultar el usuario para ver si todavía es válido el ¿token?
     //TODO: Si es valido guardarlo en el local storage
-    const usuarioObtenidoDelRest = {
-      id: 2,
-      username: "jmelnik",
-      email: "jorge.melnik@ucu.edu.uy"
-    }
-    this.saveUserToLocalStorage(usuarioObtenidoDelRest);
-    return of(true);
+    // const usuarioObtenidoDelRest = {
+    //   id: 2,
+    //   username: "jmelnik",
+    //   email: "jorge.melnik@ucu.edu.uy"
+    // }
+    // this.saveUserToLocalStorage(usuarioObtenidoDelRest);
+    // return of(true);
   }
 
   doLogin(email: string, password: string): Observable<User> {
     //TODO: Cambiar por post al backend.
-    // this.http.get<User>(`${this.baseUrl}/users/1`)
+    // return this.http.get<User>(`${this.baseUrl}/users/1`)
     //   .pipe(
-    //     tap(user => {
-    //       this.user = user;
-    //     }),
-    //     tap(this.saveUserToLocalStorage)
+    //     tap( this.saveUserToLocalStorage )
     //   )
     // ;
     const usuarioObtenidoDelRest = {

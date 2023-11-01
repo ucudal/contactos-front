@@ -1,4 +1,6 @@
 <h2>MENU </h2>
+<div class="row">
+
 
 <ul class="list-group">
   <li routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="list-group-item">
@@ -17,8 +19,11 @@
     [routerLinkActiveOptions]="{exact: true}" class="list-group-item">
     Login
   </li>
+  <br>
+  <li *ngIf="!!this.currentUser" class="list-group-item"><a (click)="this.emitLogout()">Logout</a></li>
+</ul>  
+</div>
 
-  <li *ngIf="!!this.currentUser" class="list-group-item"><a (click)="this.emitLogout()">Logout</a>
-
-  </li>
-</ul>
+<div class="row">
+  <p>{{this.currentUser?.email}}</p>
+</div>

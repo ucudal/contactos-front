@@ -11,8 +11,6 @@ import { MainLayoutPageComponent } from './pages/main-layout-page/main-layout-pa
 
 @NgModule({
   declarations: [
-    HomePageComponent,
-    AcercaDeComponent,
     SidebarComponent,
     NotFoundComponent,
     MainLayoutPageComponent
@@ -23,7 +21,6 @@ import { MainLayoutPageComponent } from './pages/main-layout-page/main-layout-pa
   ],
   exports: [
     SidebarComponent,
-
   ]
 })
 export class SharedModule { }

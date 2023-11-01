@@ -16,7 +16,7 @@ export class ContactListPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.contactoService.getContactos().subscribe(contactos => this.contacts = contactos);
+    this.contactoService.getContactos().subscribe();
   }
 
   receiveDeletedId(id:number) {
