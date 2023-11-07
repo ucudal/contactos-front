@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { User } from './interfaces/user.interface';
-import { Observable, catchError, of, tap } from 'rxjs';
+import { TokenResponse, User, UserAndToken } from './interfaces/user.interface';
+import { Observable, catchError, map, of, switchMap, tap, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -10,8 +10,8 @@ export class AuthService {
 
   private readonly USER_KEY = "user";
 
-  private baseUrl = "http://jmelnik.ddns.net";
-  private user?: User = undefined;
+  private baseUrl = "http://localhost:3000";
+  private userAndToken?: UserAndToken = undefined;
 
   constructor(
     private http: HttpClient
@@ -19,52 +19,56 @@ export class AuthService {
 
   get currentUser(): User | undefined {
     // if (!this.user) return undefined;
-    return structuredClone(this.user);
+    return structuredClone(this.userAndToken?.user);
   }
 
-  private saveUserToLocalStorage(user: User) {
+  private saveUserToLocalStorage(user: UserAndToken) {
     localStorage.setItem(this.USER_KEY, JSON.stringify(user));
-    this.user = user;
+    this.userAndToken = user;
   }
 
   checkAuthentication(): Observable<boolean> {
     if (!localStorage.getItem(this.USER_KEY)) {
-      this.user = undefined
+      this.userAndToken = undefined
       return of(false)
     }
-    
-    this.user = JSON.parse( localStorage.getItem(this.USER_KEY)!);
 
-    return of(true);
-    //TODO: pegarle al rest a una ruta protegida y consultar el usuario para ver si todavía es válido el ¿token?
-    //TODO: Si es valido guardarlo en el local storage
-    // const usuarioObtenidoDelRest = {
-    //   id: 2,
-    //   username: "jmelnik",
-    //   email: "jorge.melnik@ucu.edu.uy"
-    // }
-    // this.saveUserToLocalStorage(usuarioObtenidoDelRest);
-    // return of(true);
+    this.userAndToken = JSON.parse(localStorage.getItem(this.USER_KEY)!);
+
+    return this.http.get<User>(`${this.baseUrl}/auth/user`, {
+      headers: {
+        'Authorization': `Bearer ${this.userAndToken?.token}`
+      }
+    }).pipe(
+      tap(user => this.userAndToken!.user = user),
+      map((user) => !!user)
+    );
   }
 
   doLogin(email: string, password: string): Observable<User> {
     //TODO: Cambiar por post al backend.
-    // return this.http.get<User>(`${this.baseUrl}/users/1`)
-    //   .pipe(
-    //     tap( this.saveUserToLocalStorage )
-    //   )
-    // ;
-    const usuarioObtenidoDelRest = {
-      id: 2,
-      username: "jmelnik",
-      email: "jorge.melnik@ucu.edu.uy"
-    }
-    this.saveUserToLocalStorage(usuarioObtenidoDelRest);
-    return of(usuarioObtenidoDelRest);
+    return this.http.post<TokenResponse>(`${this.baseUrl}/auth/login`, { email, password })
+      .pipe(
+        tap(tokenResponse => console.log("token", tokenResponse.token)),
+        switchMap((tokenResponse: any) => {
+          const token = tokenResponse.token;
+          return this.http.get<User>(`${this.baseUrl}/auth/user`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          }).pipe(
+            tap(user => this.saveUserToLocalStorage({ user, token }))
+          );
+        }),
+        catchError((error: any) => {
+          console.error(error.message);
+          return throwError(() => error.message);
+        })
+      );
   }
 
   doLogout() {
     localStorage.clear();
-    this.user = undefined;
+    this.userAndToken = undefined;
   }
 }

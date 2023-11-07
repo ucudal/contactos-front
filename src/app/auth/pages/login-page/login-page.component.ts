@@ -9,19 +9,19 @@ import { Router } from '@angular/router';
 })
 export class LoginPageComponent {
 
-  public email:string = "";
-  public password:string="";
+  public email: string = "jorge@jorge.com";
+  public password: string = "lapassword";
 
   constructor(
-    private authService:AuthService, 
+    private authService: AuthService,
     private router: Router
-    ){
+  ) {
 
   }
 
-  onLogin():void {
-    this.authService.doLogin(this.email,this.password)
-      .subscribe( user => {
+  onLogin(): void {
+    this.authService.doLogin(this.email, this.password)
+      .subscribe(string => {
         this.router.navigate(["/"]);
       });
   }

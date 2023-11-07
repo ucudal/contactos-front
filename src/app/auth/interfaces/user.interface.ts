@@ -1,5 +1,13 @@
 export interface User {
-    id: number,
-    username: string,
-    email: string
+  id: number,
+  email: string
+}
+
+export interface TokenResponse {
+  token: string,
+}
+
+export interface UserAndToken {
+  user: User,
+  token: string
 }
