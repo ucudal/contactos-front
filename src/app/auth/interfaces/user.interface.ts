@@ -1,6 +1,7 @@
 export interface User {
   id: number,
-  email: string
+  email: string,
+  google: boolean,
 }
 
 export interface TokenResponse {
@@ -9,5 +10,5 @@ export interface TokenResponse {
 
 export interface UserAndToken {
   user: User,
-  token: string
+  token: string,
 }

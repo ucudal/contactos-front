@@ -4,6 +4,8 @@ import { Observable, catchError, delay, map, of, switchMap, tap, throwError } fr
 import { HttpClient } from '@angular/common/http';
 import { FormControl, ValidationErrors } from '@angular/forms';
 
+declare const google: any;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,6 +15,8 @@ export class AuthService {
 
   private baseUrl = "http://localhost:3000";
   private userAndToken?: UserAndToken = undefined;
+
+
 
   constructor(
     private http: HttpClient
@@ -102,6 +106,11 @@ export class AuthService {
 
   doLogout() {
     localStorage.clear();
+    if (this.userAndToken?.user.google) {
+      google.accounts.id.revoke(this.userAndToken.user.email, () => {
+        console.log("Cerramos google");
+      });
+    }
     this.userAndToken = undefined;
   }
 
