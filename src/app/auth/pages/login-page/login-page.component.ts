@@ -83,7 +83,7 @@ export class LoginPageComponent implements AfterViewInit {
         .pipe(
           catchError(error => {
             console.log({ error })
-            this.error = error.error.message;
+            this.error = error;
             return of(false);
           }),
         )

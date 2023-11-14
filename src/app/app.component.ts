@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { AuthService } from './auth/auth.service';
 
 @Component({
@@ -6,10 +6,16 @@ import { AuthService } from './auth/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Hola titulo Angular';
+
+  private authService = inject(AuthService);
+
   constructor() {
     console.log("AppComponent");
+  }
+  ngOnInit(): void {
+    this.authService.checkAuthentication();
   }
 
 
