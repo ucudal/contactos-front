@@ -46,7 +46,7 @@ export class AuthService {
     );
   }
 
-  doLogin(email: string, password: string): Observable<boolean | null> {
+  doLogin(email: string, password: string): Observable<boolean> {
     //TODO: Cambiar por post al backend.
     return this.http.post<TokenResponse>(`${this.baseUrl}/auth/login`, { email, password })
       .pipe(
@@ -63,8 +63,37 @@ export class AuthService {
         }),
         switchMap(user => of(true)),
         catchError((error: any) => {
+          console.log({ error });
+          // if (error.status === 401) {
+          //   return throwError(() => error.message);
+          // }
+          return throwError(() => error.error.message);
+        })
+      );
+  }
+
+  doLoginGoogle(token: string): Observable<boolean> {
+    return this.http.post<TokenResponse>(`${this.baseUrl}/auth/login/google`, { token })
+      .pipe(
+        tap(tokenResponse => console.log("token", tokenResponse.token)),
+        switchMap((tokenResponse: any) => {
+          const token = tokenResponse.token;
+          return this.http.get<User>(`${this.baseUrl}/auth/user`, {
+            headers: {
+              'Authorization': `Bearer ${token} `
+            }
+          }).pipe(
+            tap(user => this.saveUserToLocalStorage({ user, token })),
+            tap((user) => console.log("Se guardó usuario en local storage: ", JSON.stringify(user))),
+            catchError((error: any) => {
+              return throwError(() => error.error.message);
+            })
+          );
+        }),
+        switchMap(user => of(true)),
+        catchError((error: any) => {
           if (error.status === 401) {
-            throw new Error("El email o contraseña no es correcto.");
+            return throwError(() => "El email o contraseña no es correcto.");
           }
           return throwError(() => error.message);
         })

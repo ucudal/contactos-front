@@ -41,7 +41,8 @@ export class LoginPageComponent implements AfterViewInit {
   googleInit() {
     google.accounts.id.initialize({
       client_id: "647092089096-sk0avc1d85vf4l4554j8g2nbas3nu21h.apps.googleusercontent.com",
-      callback: this.handleCredentialResponse,
+      // callback: (response: any) => this.handleCredentialResponse(response),
+      callback: this.handleCredentialResponse
     });
     google.accounts.id.renderButton(
       // document.getElementById("buttonDiv"),
@@ -51,8 +52,22 @@ export class LoginPageComponent implements AfterViewInit {
     google.accounts.id.prompt(); // also display the One Tap dialog
   }
 
-  handleCredentialResponse(response: any) {
+  public handleCredentialResponse = (response: any) => {
+    console.log("esto:", this);
     console.log("GOOGLE JWT: ", response.credential);
+    this.authService.doLoginGoogle(response.credential)
+      .pipe(
+        catchError(error => {
+          this.error = error.message;
+          return of(false);
+        }),
+      )
+      .subscribe(valor => {
+        console.log({ valor });
+        if (valor) {
+          this.router.navigate(["/"]);
+        }
+      });
   }
 
   isInvalidField(field: string) {
@@ -67,12 +82,13 @@ export class LoginPageComponent implements AfterViewInit {
       this.authService.doLogin(this.myForm.value.email, this.myForm.value.password)
         .pipe(
           catchError(error => {
-            this.error = error.message;
+            console.log({ error })
+            this.error = error.error.message;
             return of(false);
           }),
         )
         .subscribe(valor => {
-          console.log({ valor });
+          console.log("login:", { valor });
           if (valor) {
             this.router.navigate(["/"]);
           }

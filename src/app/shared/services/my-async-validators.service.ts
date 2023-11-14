@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormControl, ValidationErrors } from '@angular/forms';
-import { Observable, delay, of } from 'rxjs';
+import { Observable, delay, of, switchMap } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Injectable({
@@ -15,12 +15,15 @@ export class MyAsyncValidatorsService {
   public emailTaken = (control: FormControl): Observable<ValidationErrors | null> => {
 
     const value: string = control.value.trim().toLowerCase();
-
-    if (this.authService.emailTaken(value)) {
-      return of({
-        emailTaken: true
+    return this.authService.emailTaken(value).pipe(
+      switchMap((valor) => {
+        if (valor) {
+          return of({
+            emailTaken: true
+          })
+        }
+        return of(null);
       })
-    }
-    return of(null);
+    );
   }
 }
