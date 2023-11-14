@@ -1,29 +1,86 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { catchError, map, of } from 'rxjs';
+import { ValidatorsService } from 'src/app/shared/services/validators.service';
+import { MySyncValidators } from 'src/app/shared/services/my-sync-validators.service';
+import { MyAsyncValidatorsService } from 'src/app/shared/services/my-async-validators.service';
 
+declare const google: any;
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.css']
 })
-export class LoginPageComponent {
+export class LoginPageComponent implements AfterViewInit {
 
-  public email: string = "jorge@jorge.com";
-  public password: string = "lapassword";
+  @ViewChild("googleBtn") googleBtn?: ElementRef;
+
+  public error = "";
+
+
+
+  public myForm: FormGroup = this.formBuilder.group({
+    email: ["", [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")], [this.asyncValidators.emailTaken]],
+    password: ["", [Validators.required, MySyncValidators.cantStartWithAdmin, Validators.minLength(6)]]
+  });
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private validatorService: ValidatorsService,
+    private asyncValidators: MyAsyncValidatorsService
   ) {
 
   }
+  ngAfterViewInit(): void {
+    this.googleInit();
+  }
 
-  onLogin(): void {
-    this.authService.doLogin(this.email, this.password)
-      .subscribe(string => {
-        this.router.navigate(["/"]);
-      });
+  googleInit() {
+    google.accounts.id.initialize({
+      client_id: "647092089096-sk0avc1d85vf4l4554j8g2nbas3nu21h.apps.googleusercontent.com",
+      callback: this.handleCredentialResponse,
+    });
+    google.accounts.id.renderButton(
+      // document.getElementById("buttonDiv"),
+      this.googleBtn?.nativeElement,
+      { theme: "outline", size: "large" }  // customization attributes
+    );
+    google.accounts.id.prompt(); // also display the One Tap dialog
+  }
+
+  handleCredentialResponse(response: any) {
+    console.log("GOOGLE JWT: ", response.credential);
+  }
+
+  isInvalidField(field: string) {
+    // return this.myForm.controls[field].errors && this.myForm.controls[field].touched;
+    return this.validatorService.isInValidField(this.myForm, field);
+  }
+
+  submitForm(): void {
+    this.myForm.markAllAsTouched();
+    if (this.myForm.valid) {
+      this.error = "";
+      this.authService.doLogin(this.myForm.value.email, this.myForm.value.password)
+        .pipe(
+          catchError(error => {
+            this.error = error.message;
+            return of(false);
+          }),
+        )
+        .subscribe(valor => {
+          console.log({ valor });
+          if (valor) {
+            this.router.navigate(["/"]);
+          }
+        });
+      return;
+    }
+    this.error = "Los datos no son correctos."
+    console.log("Formularion de login es invalido");
   }
 
 }

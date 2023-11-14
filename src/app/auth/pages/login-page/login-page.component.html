@@ -4,29 +4,56 @@
 <main class="form-signin container">
   <div class="row">
     <div class="col"></div>
-    <div class="col-auto">
+    <form class="col-auto" [formGroup]="this.myForm" (ngSubmit)="this.submitForm()">
       <img class="mb-4" src="/favicon.ico" alt="" width="32" height="32">
       <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
       <div class="form-floating mb-2">
-        <input type="email" class="form-control" id="floatingInput" placeholder="your@email.com">
+        <span *ngIf="this.error" class="form-text text-danger">{{this.error}}</span>
+      </div>
+
+      <div class="form-floating mb-2">
+        <input type="email" class="form-control" id="floatingInput" placeholder="your@email.com"
+          formControlName="email">
         <label for="floatingInput">Email address</label>
+        <span *ngIf="this.isInvalidField('email')" class="form-text text-danger">El campo email no es válido.</span>
       </div>
 
-      <div class="form-floating">
-        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+      <div class="form-floating mb-2">
+        <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
+          formControlName="password">
         <label for="floatingPassword">Password</label>
+        <span *ngIf="this.isInvalidField('password')" class="form-text text-danger">El campo password no es
+          válido.</span>
       </div>
-
-      <div class="form-check text-start my-3">
-        <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
-        <label class="form-check-label" for="flexCheckDefault">
-          Remember me
-        </label>
-      </div>
-      <button class="btn btn-primary w-100 py-2" (click)="this.onLogin()">Sign in</button>
-      <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2023</p>
-    </div>
+      <button type="submit" class="btn btn-primary w-100 py-2">Login</button>
+    </form>
     <div class="col"></div>
   </div>
+  <div class="row">
+    <div #googleBtn id="buttonDiv"></div>
+  </div>
 </main>
+
+<aside>
+  <p>Form value: {{ this.myForm.value|json }}</p>
+  <p>Form pristine: {{ this.myForm.pristine|json }}</p>
+  <p>Form touched: {{ this.myForm.touched|json }}</p>
+  <p>Form valid: {{ this.myForm.valid|json }}</p>
+  <p>Form status: {{ this.myForm.status|json }}</p>
+  <p>Form pending: {{ this.myForm.pending|json }}</p>
+  <hr>
+  <h2>Email</h2>
+  <pre>Value:{{this.myForm.value.email|json }} </pre>
+  <pre>Status:{{this.myForm.controls["email"].status | json }} </pre>
+  <pre>Errors:{{this.myForm.controls["email"].errors|json }} </pre>
+  <pre>Touched:{{this.myForm.controls["email"].touched | json }} </pre>
+  <pre>pristine:{{this.myForm.controls["email"].pristine | json }} </pre>
+  <hr>
+  <h2>Password</h2>
+  <pre>Value:{{this.myForm.value.password|json }} </pre>
+  <pre>Status:{{this.myForm.controls["password"].status | json }} </pre>
+  <pre>Errors:{{this.myForm.controls["password"].errors|json }} </pre>
+  <pre>Touched:{{this.myForm.controls["password"].touched | json }} </pre>
+  <pre>pristine:{{this.myForm.controls["password"].pristine | json }} </pre>
+</aside>

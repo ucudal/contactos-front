@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { TokenResponse, User, UserAndToken } from './interfaces/user.interface';
-import { Observable, catchError, map, of, switchMap, tap, throwError } from 'rxjs';
+import { Observable, catchError, delay, map, of, switchMap, tap, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { FormControl, ValidationErrors } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +46,7 @@ export class AuthService {
     );
   }
 
-  doLogin(email: string, password: string): Observable<User> {
+  doLogin(email: string, password: string): Observable<boolean | null> {
     //TODO: Cambiar por post al backend.
     return this.http.post<TokenResponse>(`${this.baseUrl}/auth/login`, { email, password })
       .pipe(
@@ -57,11 +58,14 @@ export class AuthService {
               'Authorization': `Bearer ${token}`
             }
           }).pipe(
-            tap(user => this.saveUserToLocalStorage({ user, token }))
+            tap(user => this.saveUserToLocalStorage({ user, token })),
           );
         }),
+        switchMap(user => of(true)),
         catchError((error: any) => {
-          console.error(error.message);
+          if (error.status === 401) {
+            throw new Error("El email o contraseña no es correcto.");
+          }
           return throwError(() => error.message);
         })
       );
@@ -70,5 +74,9 @@ export class AuthService {
   doLogout() {
     localStorage.clear();
     this.userAndToken = undefined;
+  }
+
+  public emailTaken(valor: string): Observable<boolean> {
+    return of(valor === "jorge@jorge.com");
   }
 }
