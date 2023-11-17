@@ -3,6 +3,7 @@ import { TokenResponse, User, UserAndToken } from './interfaces/user.interface';
 import { Observable, catchError, delay, map, of, switchMap, tap, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { FormControl, ValidationErrors } from '@angular/forms';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 
 declare const google: any;
 
@@ -15,8 +16,6 @@ export class AuthService {
 
   private baseUrl = "http://localhost:3000";
   private userAndToken?: UserAndToken = undefined;
-
-
 
   constructor(
     private http: HttpClient
@@ -107,9 +106,7 @@ export class AuthService {
   doLogout() {
     localStorage.clear();
     if (this.userAndToken?.user.google) {
-      google.accounts.id.revoke(this.userAndToken.user.email, () => {
-        console.log("Cerramos google");
-      });
+      GoogleAuth.signOut().then(() => console.log("Cerramos google."));
     }
     this.userAndToken = undefined;
   }

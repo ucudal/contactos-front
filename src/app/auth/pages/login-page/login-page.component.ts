@@ -6,6 +6,7 @@ import { catchError, map, of } from 'rxjs';
 import { ValidatorsService } from 'src/app/shared/services/validators.service';
 import { MySyncValidators } from 'src/app/shared/services/my-sync-validators.service';
 import { MyAsyncValidatorsService } from 'src/app/shared/services/my-async-validators.service';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 
 declare const google: any;
 @Component({
@@ -14,11 +15,7 @@ declare const google: any;
 })
 export class LoginPageComponent implements AfterViewInit {
 
-  @ViewChild("googleBtn") googleBtn?: ElementRef;
-
   public error = "";
-
-
 
   public myForm: FormGroup = this.formBuilder.group({
     email: ["", [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")], [this.asyncValidators.emailTaken]],
@@ -39,23 +36,19 @@ export class LoginPageComponent implements AfterViewInit {
   }
 
   googleInit() {
-    google.accounts.id.initialize({
-      client_id: "647092089096-sk0avc1d85vf4l4554j8g2nbas3nu21h.apps.googleusercontent.com",
-      // callback: (response: any) => this.handleCredentialResponse(response),
-      callback: this.handleCredentialResponse
-    });
-    google.accounts.id.renderButton(
-      // document.getElementById("buttonDiv"),
-      this.googleBtn?.nativeElement,
-      { theme: "outline", size: "large" }  // customization attributes
-    );
-    google.accounts.id.prompt(); // also display the One Tap dialog
+
+    GoogleAuth.initialize(
+      {
+        grantOfflineAccess: true,
+      }
+    )
   }
 
-  public handleCredentialResponse = (response: any) => {
-    console.log("esto:", this);
-    console.log("GOOGLE JWT: ", response.credential);
-    this.authService.doLoginGoogle(response.credential)
+  async doLogin() {
+    const user = await GoogleAuth.signIn();
+
+    console.log(user);
+    this.authService.doLoginGoogle(user.authentication.idToken)
       .pipe(
         catchError(error => {
           this.error = error.message;
