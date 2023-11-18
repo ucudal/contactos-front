@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TokenResponse, User, UserAndToken } from './interfaces/user.interface';
-import { Observable, catchError, delay, map, of, switchMap, tap, throwError } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { Observable, catchError, delay, firstValueFrom, map, of, switchMap, tap, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { FormControl, ValidationErrors } from '@angular/forms';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 
@@ -49,30 +49,23 @@ export class AuthService {
     );
   }
 
-  doLogin(email: string, password: string): Observable<boolean> {
-    //TODO: Cambiar por post al backend.
-    return this.http.post<TokenResponse>(`${this.baseUrl}/auth/login`, { email, password })
-      .pipe(
-        tap(tokenResponse => console.log("token", tokenResponse.token)),
-        switchMap((tokenResponse: any) => {
-          const token = tokenResponse.token;
-          return this.http.get<User>(`${this.baseUrl}/auth/user`, {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          }).pipe(
-            tap(user => this.saveUserToLocalStorage({ user, token })),
-          );
-        }),
-        switchMap(user => of(true)),
-        catchError((error: any) => {
-          console.log({ error });
-          // if (error.status === 401) {
-          //   return throwError(() => error.message);
-          // }
-          return throwError(() => error.error.message);
-        })
-      );
+  async doLogin(email: string, password: string): Promise<void> {
+    try {
+      const res1 = await firstValueFrom(this.http.post<TokenResponse>(`${this.baseUrl}/auth/login`, { email, password }));
+      const opciones = {
+        headers: {
+          'Authorization': `Bearer ${res1.token}`
+        }
+      };
+      const user = await firstValueFrom(this.http.get<User>(`${this.baseUrl}/auth/user`, opciones));
+      this.saveUserToLocalStorage({ user: user, token: res1.token });
+    } catch (error: any) {
+      if (error.status === 0) {        // A client-side or network error occurred. Handle it accordingly.
+        throw new Error("No se pudo contactar el servidor.");
+      } else {
+        throw new Error(error.error.message);
+      }
+    }
   }
 
   doLoginGoogle(token: string): Observable<boolean> {
@@ -111,7 +104,10 @@ export class AuthService {
     this.userAndToken = undefined;
   }
 
-  public emailTaken(valor: string): Observable<boolean> {
-    return of(valor === "jorge@jorge.com");
+  public async emailTaken(valor: string): Promise<boolean> {
+    return valor === "jorge@jorge.com";
   }
+
+
+
 }

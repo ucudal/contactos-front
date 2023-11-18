@@ -63,33 +63,26 @@ export class LoginPageComponent implements AfterViewInit {
       });
   }
 
-  isInvalidField(field: string) {
-    // return this.myForm.controls[field].errors && this.myForm.controls[field].touched;
+  async submitForm(): Promise<void> {
+    this.myForm.markAllAsTouched();
+    if (this.myForm.valid) {
+      try {
+        this.error = "";
+        await this.authService.doLogin(this.myForm.value.email, this.myForm.value.password)
+        this.router.navigate(["/"]);
+      } catch (error: any) {
+        this.error = error.message;
+      }
+    }
+  }
+
+
+  public isInvalidField(field: string) {
     return this.validatorService.isInValidField(this.myForm, field);
   }
 
-  submitForm(): void {
-    this.myForm.markAllAsTouched();
-    if (this.myForm.valid) {
-      this.error = "";
-      this.authService.doLogin(this.myForm.value.email, this.myForm.value.password)
-        .pipe(
-          catchError(error => {
-            console.log({ error })
-            this.error = error;
-            return of(false);
-          }),
-        )
-        .subscribe(valor => {
-          console.log("login:", { valor });
-          if (valor) {
-            this.router.navigate(["/"]);
-          }
-        });
-      return;
-    }
-    this.error = "Los datos no son correctos."
-    console.log("Formularion de login es invalido");
+  public getFieldError(field: string) {
+    return this.validatorService.getFieldError(this.myForm, field);
   }
 
 }

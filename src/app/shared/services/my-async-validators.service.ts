@@ -12,18 +12,13 @@ export class MyAsyncValidatorsService {
 
   }
 
-  public emailTaken = (control: FormControl): Observable<ValidationErrors | null> => {
+  public emailTaken = async (control: FormControl): Promise<ValidationErrors | null> => {
 
     const value: string = control.value.trim().toLowerCase();
-    return this.authService.emailTaken(value).pipe(
-      switchMap((valor) => {
-        if (valor) {
-          return of({
-            emailTaken: true
-          })
-        }
-        return of(null);
-      })
-    );
+    const valido = await this.authService.emailTaken(value);
+    if (valido) return {
+      emailTaken: true
+    }
+    return null;
   }
 }

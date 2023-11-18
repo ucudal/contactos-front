@@ -15,17 +15,22 @@
         <input type="email" class="form-control" id="floatingInput" placeholder="your@email.com"
           formControlName="email">
         <label for="floatingInput">Email address</label>
-        <span *ngIf="this.isInvalidField('email')" class="form-text text-danger">El campo email no es válido.</span>
+        <span *ngIf="this.isInvalidField('email')" class="form-text text-danger">
+          {{ this.getFieldError("email")}}
+        </span>
       </div>
 
       <div class="form-floating mb-2">
         <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
           formControlName="password">
         <label for="floatingPassword">Password</label>
-        <span *ngIf="this.isInvalidField('password')" class="form-text text-danger">El campo password no es
-          válido.</span>
+        <span *ngIf="this.isInvalidField('password')" class="form-text text-danger">
+          {{ this.getFieldError("password")}}
+        </span>
       </div>
-      <button type="submit" class="btn btn-primary w-100 py-2">Login</button>
+      <button type="submit" class="btn btn-primary w-100 py-2 " [disabled]="!this.myForm.valid">
+        {{ this.myForm.valid ? 'Login' : 'Corrige los datos' }}
+      </button>
     </form>
     <div class="col"></div>
   </div>

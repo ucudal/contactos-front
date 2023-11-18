@@ -29,11 +29,6 @@ export class ValidatorsService {
     return null;
   }
 
-  public isInValidField(form: FormGroup, field: string) {
-    return form.controls[field].errors && form.controls[field].touched;
-  }
-
-
   public isFieldOneEqualFieldTwo(field1: string, field2: string) {
 
     return (formGroup: FormControl): ValidationErrors | null => {
@@ -50,6 +45,19 @@ export class ValidatorsService {
       return null;
     }
 
+  }
+
+  public isInValidField(form: FormGroup, field: string) {
+    return form.controls[field].errors && form.controls[field].touched;
+  }
+
+  public getFieldError(form: FormGroup, field: string) {
+    if (!this.isInValidField(form, field)) return "No hay errores."
+
+    if (form.controls[field].errors!["pattern"]) return "El patrón del campo no es correcto.";
+    if (form.controls[field].errors!["emailTaken"]) return "El email ya está registrado.";
+    if (form.controls[field].errors!["minlength"]) return `El campo debe tener un largo mínimo de ${form.controls[field].errors!["minlength"].requiredLength}`;
+    return "Los datos no son correctos.";
   }
 
 
