@@ -15,16 +15,3 @@ export class MySyncValidators {
   }
 }
 
-export class MyAsyncValidators {
-  static emailTaken(control: FormControl): Observable<ValidationErrors | null> {
-
-    const value: string = control.value.trim().toLowerCase();
-    if (value === "jorge@jorge.com") {
-
-      return of({
-        emailTaken: true,
-      }).pipe(delay(1000));
-    }
-    return of(null);
-  }
-}

@@ -2,26 +2,26 @@
 <div class="row">
 
 
-<ul class="list-group">
-  <li routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="list-group-item">
-    Home Page
-  </li>
-  <li routerLink="/about" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="list-group-item">
-    About Page
-  </li>
+  <ul class="list-group">
+    <li class="list-group-item">
+      <a routerLink=" /home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home Page</a>
+    </li>
+    <li class="list-group-item">
+      <a routerLink="/about" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">About Page</a>
+    </li>
 
-  <li routerLink="/contacts" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-    class="list-group-item">
-    Contactos
-  </li>
+    <li class="list-group-item">
+      <a routerLink="/contacts" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Contactos</a>
 
-  <li *ngIf="!this.currentUser" routerLink="/auth/login" routerLinkActive="active"
-    [routerLinkActiveOptions]="{exact: true}" class="list-group-item">
-    Login
-  </li>
-  <br>
-  <li *ngIf="!!this.currentUser" class="list-group-item"><a (click)="this.emitLogout()">Logout</a></li>
-</ul>  
+    </li>
+
+    <li *ngIf="!this.currentUser" class="list-group-item">
+      <a routerLink="/auth/login" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Login</a>
+    </li>
+    <br>
+    <li *ngIf=" !!this.currentUser" class="list-group-item"><a href="#" (click)="this.emitLogout()">Logout</a>
+    </li>
+  </ul>
 </div>
 
 <div class="row">

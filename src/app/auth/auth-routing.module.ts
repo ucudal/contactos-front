@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MainLayoutPageComponent } from '../shared/pages/main-layout-page/main-layout-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
+import { userIsNotLogged } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -11,7 +12,7 @@ const routes: Routes = [
     children: [
       {
         path: "login",
-        component: LoginPageComponent
+        component: LoginPageComponent,
       },
       {
         path: "register",
@@ -19,8 +20,8 @@ const routes: Routes = [
       },
       {
         path: "**",
-        redirectTo: "login"
-      },
+        redirectTo: "login",
+      }
     ]
   }
 ];

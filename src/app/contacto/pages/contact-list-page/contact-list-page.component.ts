@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Contacto } from '../../interfaces/contacto';
 import { ContactoService } from '../../services/contacto.service';
 
@@ -11,16 +11,14 @@ export class ContactListPageComponent implements OnInit {
 
   contacts: Contacto[] = []
 
-  constructor(private contactoService: ContactoService) {
+  private contactoService = inject(ContactoService);
 
+  async ngOnInit(): Promise<void> {
+    this.contacts = await this.contactoService.getContactos();
   }
 
-  ngOnInit(): void {
-    this.contactoService.getContactos().subscribe();
-  }
-
-  receiveDeletedId(id:number) {
-    console.log("El id:",id , " llegó a contact-list-page");
+  receiveDeletedId(id: number) {
+    console.log("El id:", id, " llegó a contact-list-page");
     this.contactoService.removeContact(id);
   }
 

@@ -4,13 +4,34 @@ import { tap } from 'rxjs';
 import { AuthService } from '../auth.service';
 
 
-export const userIsLogged: CanMatchFn = (route: Route, segments: UrlSegment[]) => {
+export const userIsLogged: CanMatchFn = async (route: Route, segments: UrlSegment[]) => {
   const router = inject(Router);
   const authService = inject(AuthService);
-  return authService.checkAuthentication()
-    .pipe(
-      tap(autenticado => {
-        if (!autenticado) router.navigate(["/auth/login"]);
-      })
-    );
+  try {
+    const autenticado = await authService.checkAuthentication();
+    if (!autenticado) {
+      router.navigate(["/auth/login"]);
+      return false;
+    };
+    return true;
+  } catch (error) {
+    return false;
+  }
+
+}
+
+export const userIsNotLogged: CanMatchFn = async (route: Route, segments: UrlSegment[]) => {
+  const router = inject(Router);
+  const authService = inject(AuthService);
+  try {
+    const autenticado = await authService.checkAuthentication();
+    if (autenticado) {
+      router.navigate(["/"]);
+      return false;
+    };
+    return true;
+  } catch (error) {
+    return false;
+  }
+
 }

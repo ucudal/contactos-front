@@ -17,6 +17,10 @@ const routes: Routes = [
         path: "about",
         component: AcercaDeComponent
       },
+      {
+        path: "**",
+        redirectTo: "home",
+      }
     ]
   },
 ];

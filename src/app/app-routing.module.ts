@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { userIsLogged } from './auth/guards/auth.guard';
+import { userIsLogged, userIsNotLogged } from './auth/guards/auth.guard';
 
 const routes: Routes = [
   {
     path: "auth",
     loadChildren: () => import("./auth/auth.module").then(m => m.AuthModule),
+    canMatch: [userIsNotLogged]
   },
   {
     path: "contacts",
@@ -18,7 +19,7 @@ const routes: Routes = [
   },
   {
     path: "**",
-    redirectTo: "/auth/login"
+    redirectTo: "",
   }
 ]
 

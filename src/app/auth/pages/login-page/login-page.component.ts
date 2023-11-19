@@ -1,19 +1,25 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { catchError, map, of } from 'rxjs';
 import { ValidatorsService } from 'src/app/shared/services/validators.service';
 import { MySyncValidators } from 'src/app/shared/services/my-sync-validators.service';
 import { MyAsyncValidatorsService } from 'src/app/shared/services/my-async-validators.service';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+import { Platform } from '@angular/cdk/platform';
 
-declare const google: any;
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
 })
-export class LoginPageComponent implements AfterViewInit {
+export class LoginPageComponent {
+
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private formBuilder = inject(FormBuilder);
+  private validatorService = inject(ValidatorsService);
+  private asyncValidators = inject(MyAsyncValidatorsService);
+  private platform = inject(Platform);
 
   public error = "";
 
@@ -22,60 +28,29 @@ export class LoginPageComponent implements AfterViewInit {
     password: ["", [Validators.required, MySyncValidators.cantStartWithAdmin, Validators.minLength(6)]]
   });
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private formBuilder: FormBuilder,
-    private validatorService: ValidatorsService,
-    private asyncValidators: MyAsyncValidatorsService
-  ) {
-
-  }
-  ngAfterViewInit(): void {
-    this.googleInit();
-  }
-
-  googleInit() {
-
-    GoogleAuth.initialize(
-      {
-        grantOfflineAccess: true,
-      }
-    )
-  }
-
   async doLogin() {
-    const user = await GoogleAuth.signIn();
-
-    console.log(user);
-    this.authService.doLoginGoogle(user.authentication.idToken)
-      .pipe(
-        catchError(error => {
-          this.error = error.message;
-          return of(false);
-        }),
-      )
-      .subscribe(valor => {
-        console.log({ valor });
-        if (valor) {
-          this.router.navigate(["/"]);
-        }
-      });
+    try {
+      const user = await GoogleAuth.signIn();
+      await this.authService.doLoginGoogle(user.authentication.idToken)
+      this.router.navigate(["/"]);
+    } catch (error: any) {
+      this.error = error.message;
+    }
   }
 
   async submitForm(): Promise<void> {
     this.myForm.markAllAsTouched();
-    if (this.myForm.valid) {
-      try {
-        this.error = "";
-        await this.authService.doLogin(this.myForm.value.email, this.myForm.value.password)
-        this.router.navigate(["/"]);
-      } catch (error: any) {
-        this.error = error.message;
-      }
+    this.error = "";
+    if (!this.myForm.valid) {
+      return;
+    }
+    try {
+      await this.authService.doLogin(this.myForm.value.email, this.myForm.value.password)
+      this.router.navigate(["/"]);
+    } catch (error: any) {
+      this.error = error.message;
     }
   }
-
 
   public isInvalidField(field: string) {
     return this.validatorService.isInValidField(this.myForm, field);

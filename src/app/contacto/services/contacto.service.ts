@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable, catchError, from, of } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { Observable, catchError, firstValueFrom, from, of } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
 import { Contacto } from 'src/app/contacto/interfaces/contacto';
 
 @Injectable(
@@ -8,32 +9,33 @@ import { Contacto } from 'src/app/contacto/interfaces/contacto';
 )
 export class ContactoService {
 
-  private baseUrl = "http://jmelnik.ddns.net:3000/contacts";
+  private baseUrl = "http://localhost:3000/contacts";
 
-  constructor(private http: HttpClient) {
+  private http = inject(HttpClient);
+  private authService = inject(AuthService);
 
+  getContactos(): Promise<Contacto[]> {
+    try {
+      return firstValueFrom(this.http.get<Contacto[]>(this.baseUrl, { headers: this.authService.getAuthHeaders() }));
+    } catch (error: any) {
+      if (error.status === 0) {        // Error del lado del cliente.
+        throw new Error("No se pudo contactar el servidor.");
+      } else {  //HttpErrorResponse
+        throw new Error(error.error.message);
+      }
+    }
   }
 
-  // getContactosObservable(): Observable<Contacto[]> {
-  //   return from(
-  //     fetch(this.baseUrl)
-  //       .then(res => {
-  //         console.log("RES ",res)
-  //         return res.json()
-  //       })
-  //       .then(data => data as Contacto[])
-  //     );
-  // }
-
-  getContactos(): Observable<Contacto[]> {
-    return this.http.get<Contacto[]>(this.baseUrl);
-  }
-
-  getContactoById(id: number): Observable<Contacto | undefined> {
-    return this.http.get<Contacto | undefined>(`${this.baseUrl}/${id}`)
-      .pipe(
-        catchError(error => of(undefined)),
-      );
+  getContactoById(id: number): Promise<Contacto | undefined> {
+    try {
+      return firstValueFrom(this.http.get<Contacto | undefined>(`${this.baseUrl}/${id}`));
+    } catch (error: any) {
+      if (error.status === 0) {        // Error del lado del cliente.
+        throw new Error("No se pudo contactar el servidor.");
+      } else {  //HttpErrorResponse
+        throw new Error(error.error.message);
+      }
+    }
   }
 
   async addContact(contacto: Contacto) {
@@ -53,7 +55,7 @@ export class ContactoService {
   }
 
   removeContact(id: number): void {
-    console.log("Borremos id: ",id);
+    console.log("Borremos id: ", id);
 
   }
 
