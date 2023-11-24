@@ -5,7 +5,7 @@ const config: CapacitorConfig = {
   appName: 'primerAngular',
   webDir: 'dist/primer-angular',
   server: {
-    androidScheme: 'https',
+    androidScheme: 'http',
   },
   plugins: {
     GoogleAuth: {

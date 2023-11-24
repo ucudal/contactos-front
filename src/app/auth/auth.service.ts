@@ -22,9 +22,9 @@ export class AuthService {
   private http = inject(HttpClient);
 
   constructor() {
-    // if (this.platform.ANDROID) {
-    //   this.baseUrl = "http://192.168.1.53:3000";
-    // }
+    if (this.platform.ANDROID) {
+      this.baseUrl = "http://10.4.201.240:3000";
+    }
     console.log("constructor baseUrl: ", this.baseUrl);
   }
 

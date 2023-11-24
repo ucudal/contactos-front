@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, firstValueFrom, from, of } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Contacto } from 'src/app/contacto/interfaces/contacto';
+import { Platform } from '@angular/cdk/platform';
 
 @Injectable(
   { providedIn: 'root' }    //singleton disponible en toda la aplicación.
@@ -13,8 +14,12 @@ export class ContactoService {
 
   private http = inject(HttpClient);
   private authService = inject(AuthService);
+  private platform = inject(Platform);
 
   getContactos(): Promise<Contacto[]> {
+    if (this.platform.ANDROID) {
+      this.baseUrl = "http://10.4.201.240:3000";
+    }
     try {
       return firstValueFrom(this.http.get<Contacto[]>(this.baseUrl, { headers: this.authService.getAuthHeaders() }));
     } catch (error: any) {
